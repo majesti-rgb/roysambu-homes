@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roysambu Homes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f6f6f6;
+    }
+    header {
+      background-color: #2e8b57;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #ddd;
+      padding: 0.5rem;
+    }
+    nav button {
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: white;
+      border-radius: 8px;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .button {
+      margin-top: 1rem;
+      background-color: #2e8b57;
+      color: white;
+      padding: 0.7rem;
+      width: 100%;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .lang {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Roysambu Homes</h1>
+    <p>Comfort, convenience, and affordability</p>
+  </header>
+
+  <nav>
+    <button onclick="switchLang('en')">English</button>
+    <button onclick="switchLang('sw')">Kiswahili</button>
+  </nav>
+
+  <div class="container">
+    <div id="en" class="lang">
+      <h2>Book Your Stay</h2>
+      <form id="bookingFormEn">
+        <label>Full Name</label>
+        <input type="text" required />
+
+        <label>Phone Number</label>
+        <input type="tel" required />
+
+        <label>Check-in Date</label>
+        <input type="date" required />
+
+        <label>Check-out Date</label>
+        <input type="date" required />
+
+        <label>Room Type</label>
+        <select required>
+          <option value="Studio">Studio</option>
+          <option value="1 Bedroom">1 Bedroom</option>
+        </select>
+
+        <label>Referral Code (Optional)</label>
+        <input type="text" />
+
+        <button class="button" type="button" onclick="bookViaWhatsApp('en')">Book Now via WhatsApp</button>
+      </form>
+    </div>
+
+    <div id="sw" class="lang">
+      <h2>Weka Nafasi Yako</h2>
+      <form id="bookingFormSw">
+        <label>Jina Kamili</label>
+        <input type="text" required />
+
+        <label>Nambari ya Simu</label>
+        <input type="tel" required />
+
+        <label>Tarehe ya Kuingia</label>
+        <input type="date" required />
+
+        <label>Tarehe ya Kutoka</label>
+        <input type="date" required />
+
+        <label>Aina ya Chumba</label>
+        <select required>
+          <option value="Studio">Studio</option>
+          <option value="Chumba Kimoja">Chumba Kimoja</option>
+        </select>
+
+        <label>Kodi ya Rufaa (Hiari)</label>
+        <input type="text" />
+
+        <button class="button" type="button" onclick="bookViaWhatsApp('sw')">Weka Nafasi Kupitia WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function switchLang(lang) {
+      document.querySelectorAll('.lang').forEach(el => el.style.display = 'none');
+      document.getElementById(lang).style.display = 'block';
+    }
+    window.onload = () => switchLang('en');
+
+    function bookViaWhatsApp(lang) {
+      const form = document.getElementById(lang === 'en' ? 'bookingFormEn' : 'bookingFormSw');
+      const data = form.querySelectorAll('input, select');
+      let message = lang === 'en' ? '*Booking Request*%0A' : '*Ombi la Kuhifadhi*%0A';
+      data.forEach(el => {
+        if (el.value) {
+          const label = el.previousElementSibling.innerText;
+          message += `${label}: ${el.value}%0A`;
+        }
+      });
+
+      const phone = '254797396259';
+      const url = `https://wa.me/${phone}?text=${message}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
